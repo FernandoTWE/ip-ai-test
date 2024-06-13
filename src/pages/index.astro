@@ -1,21 +1,10 @@
----
-import { defineConfig } from 'astro/config';
-
-// Generar una consulta_id única en el servidor
-const generateConsultaId = () => {
-  return Math.random().toString(36).substring(2, 8);
-};
-const consultaId = generateConsultaId();
----
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
   <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="generator" content={Astro.generator} />
-  <title>Astro</title>
+  <title>Analisis de IP</title>
   <style>
     .loading-animation {
       border: 16px solid #f3f3f3;
@@ -96,9 +85,11 @@ const consultaId = generateConsultaId();
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Leer consultaId del elemento de script
-      const scriptElement = document.getElementById('consultaId');
-      const consultaId = scriptElement?.getAttribute('data-consulta-id') ?? '';
+      // Generar consultaId
+      const generateConsultaId = () => {
+        return Math.random().toString(36).substring(2, 8);
+      };
+      const consultaId = generateConsultaId();
       console.log('Generated consultaId:', consultaId);
 
       // Obtener la IP del usuario
@@ -159,8 +150,5 @@ const consultaId = generateConsultaId();
       });
     });
   </script>
-
-  <!-- Agregar script con consultaId generado -->
-  <script id="consultaId" type="application/json" data-consulta-id={consultaId}></script>
 </body>
 </html>
