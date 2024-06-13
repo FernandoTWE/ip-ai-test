@@ -1,32 +1,100 @@
 ---
-const fetchIP = async () => {
-  const response = await fetch("https://api.ipify.org?format=json");
-  const json = await response.json();
-  return json.ip;
-};
+import { defineConfig } from 'astro/config';
 
-const IP = await fetchIP
+// Generar una consulta_id única en el servidor
+const generateConsultaId = () => {
+  return Math.random().toString(36).substring(2, 8);
+};
+const consultaId = generateConsultaId();
 ---
 
+<!DOCTYPE html>
 <html lang="es">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<section class="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white">
-			<div class="relative container px-4 mx-auto z-10">
-			  <div class="text-center max-w-3xl mx-auto bg-white bg-opacity-90 p-16 rounded-3xl shadow-2xl backdrop-filter backdrop-blur-lg">
-				<span class="block mb-4 font-medium uppercase tracking-widest text-xs leading-4 text-gray-700">Test de prueba de análisis</span>
-				<h2 class="mb-6 font-heading text-5xl md:text-6xl xl:text-7xl leading-tight text-gray-900">Análisis de IP</h2>
-				<p class="mb-10 xl:mb-12 font-sans font-normal text-lg leading-6 text-gray-700">Esta es tu IP: <span class="font-semibold">{IP}</span></p>
-				<a class="inline-block py-5 px-10 text-xl leading-6 text-white font-medium tracking-tighter font-heading bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50 rounded-xl shadow-xl transition transform hover:-translate-y-1" href="#">Analizar IP</a>
-			  </div>
-			</div>
-		  </section>  
-		
-	</body>
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/svg+xml" href="{Astro.site.base}/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="generator" content={Astro.generator} />
+  <title>Astro</title>
+  <style>
+    .loading-animation {
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid #3498db;
+      width: 120px;
+      height: 120px;
+      animation: spin 2s linear infinite;
+      margin: auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <section id="input-section" class="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white">
+    <div class="relative container px-4 mx-auto z-10">
+      <div id="input-card" class="text-center max-w-3xl mx-auto bg-white bg-opacity-90 p-16 rounded-3xl shadow-2xl backdrop-filter backdrop-blur-lg">
+        <span class="block mb-4 font-medium uppercase tracking-widest text-xs leading-4 text-gray-700">Test de prueba de análisis</span>
+        <h2 class="mb-6 font-heading text-5xl md:text-6xl xl:text-7xl leading-tight text-gray-900">Análisis de IP</h2>
+        <p class="mb-4 xl:mb-6 font-sans font-normal text-lg leading-6 text-gray-700">Ingresa tu IP:</p>
+        <input type="text" id="ip-address" class="mb-6 xl:mb-8 font-sans font-normal text-lg leading-6 text-gray-700 p-2 border rounded" placeholder="Ingresa tu IP aquí">
+        <a id="analyze-button" class="inline-block py-5 px-10 text-xl leading-6 text-white font-medium tracking-tighter font-heading bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50 rounded-xl shadow-xl transition transform hover:-translate-y-1 cursor-pointer">Analizar IP</a>
+      </div>
+      <div id="loading-message" class="hidden text-center max-w-3xl mx-auto bg-white bg-opacity-90 p-16 rounded-3xl shadow-2xl backdrop-filter backdrop-blur-lg">
+        <div class="loading-animation"></div>
+        <p class="font-bold text-lg text-black">Analizando tu IP, esto puede tardar un poco...</p>
+      </div>
+      <div id="result-button" class="hidden text-center max-w-3xl mx-auto bg-white bg-opacity-90 p-16 rounded-3xl shadow-2xl backdrop-filter backdrop-blur-lg">
+        <a id="check-result-button" class="inline-block py-5 px-10 text-xl leading-6 text-white font-medium tracking-tighter font-heading bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 focus:ring-2 focus:ring-green-600 focus:ring-opacity-50 rounded-xl shadow-xl transition transform hover:-translate-y-1 cursor-pointer">Consultar Resultados</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Leer consultaId del elemento de script
+      const scriptElement = document.getElementById('consultaId');
+      const consultaId = scriptElement?.getAttribute('data-consulta-id') ?? '';
+      console.log('Generated consultaId:', consultaId);
+
+      const sendIPToWebhook = async (ip, consultaId) => {
+        await fetch("https://webapi.procesio.app/api/webhooks/launch/62e19db0-a379-4877-9fac-e50850900ca4", {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ip, consulta_id: consultaId })
+        });
+      };
+
+      document.getElementById('analyze-button').addEventListener('click', async () => {
+        const ip = document.getElementById('ip-address').value;
+        if (!ip) {
+          alert("Por favor, introduce una IP.");
+          return;
+        }
+
+        document.getElementById('input-card').classList.add('hidden');
+        document.getElementById('loading-message').classList.remove('hidden');
+
+        await sendIPToWebhook(ip, consultaId);
+
+        setTimeout(() => {
+          document.getElementById('loading-message').classList.add('hidden');
+          document.getElementById('result-button').classList.remove('hidden');
+          const resultButton = document.querySelector('#check-result-button');
+          if (resultButton) {
+            resultButton.setAttribute('href', `/ip-ai-test/resultados?consulta_id=${consultaId}`);
+          }
+        }, 60000); // 1 minuto
+      });
+    });
+  </script>
+
+  <!-- Agregar script con consultaId generado -->
+  <script id="consultaId" type="application/json" data-consulta-id={consultaId}></script>
+</body>
 </html>

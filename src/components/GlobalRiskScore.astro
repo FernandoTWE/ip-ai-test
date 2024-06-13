@@ -1,0 +1,9 @@
+---
+const { globalRiskScore } = Astro.props;
+---
+<div class="bg-white bg-opacity-90 p-6 rounded-3xl shadow-2xl mb-4 flex items-center justify-center">
+  <h3 class="text-2xl font-bold mb-2">Puntuación Global de Riesgo</h3>
+  <div class={`w-24 h-24 rounded-full flex items-center justify-center ${globalRiskScore > 7 ? 'bg-red-500' : globalRiskScore >= 3 ? 'bg-yellow-500' : 'bg-green-500'}`}>
+    <span class="text-white text-2xl font-bold">{globalRiskScore}</span>
+  </div>
+</div>
