@@ -31,6 +31,14 @@
     details div, details ul {
       @apply mt-2 pl-4;
     }
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    .button-container a {
+      @apply inline-block py-5 px-10 text-xl leading-6 text-white font-medium tracking-tighter bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50 rounded-xl shadow-xl transition transform hover:-translate-y-1 cursor-pointer;
+    }
   </style>
 </head>
 <body class="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white">
@@ -59,6 +67,11 @@
       <div class="card" id="portsAndVulnerabilities" style="display: none;">
         <div class="card-header">Puertos Abiertos y Vulnerabilidades</div>
         <div id="openPorts"></div>
+      </div>
+
+      <!-- Botón Volver a Inicio -->
+      <div class="button-container">
+        <a href="/ip-ai-test/">Volver a Inicio</a>
       </div>
     </div>
   </section>
