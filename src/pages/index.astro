@@ -44,7 +44,7 @@ import LayoutHome from '../layouts/LayoutHome.astro';
           await fetch("https://webapi.procesio.app/api/webhooks/launch/62e19db0-a379-4877-9fac-e50850900ca4", {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ip: userIP, userType, userLanguage, consulta_id: consultId })
+              body: JSON.stringify({ ip: inputIpAddress.value, userType, userLanguage, consulta_id: consultId })
           });
 
           // Simular un proceso de carga (aquí se puede ajustar el tiempo según sea necesario)
