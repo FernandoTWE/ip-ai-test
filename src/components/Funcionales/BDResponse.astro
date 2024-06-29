@@ -1,0 +1,379 @@
+<section class="relative w-full max-w-5xl rounded-md p-2">
+    <div class="w-full h-11 justify-start items-center gap-6 inline-flex">
+        <div class="text-neutral-700 text-4xl font-bold font-['Montserrat']">Conexión segura </div> <a href="/ip-ai-test/" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Ir al Inicio
+      </a>
+        <div class="w-[18px] h-[18px] relative"></div>
+    </div>
+    <div class="text-neutral-700 text-2xl font-bold font-['Montserrat'] my-4">IP Casa - <span id="ip-address"></span></div>
+    <div class="w-full min-h-[204px] bg-white rounded-lg mt-2 shadow-md">
+        <!-- Card principal -->
+        <div class="w-full max-w-[1008px] flex flex-wrap pt-3 justify-start">
+            <!-- Puntuación obtenida -->
+            <div class="w-full sm:w-1/2 lg:w-1/3 border-r border-slate-200 p-4">
+                <div class="text-center text-neutral-700 text-base font-bold font-['Montserrat']">Puntuación obtenida</div>
+                <div class="w-full flex flex-col justify-start items-center gap-2">
+                    <div class="relative w-36 h-[75px] flex justify-center items-center">
+                        <span id="global-risk-score" class="text-neutral-700 text-4xl font-bold font-['Montserrat']"></span>
+                        <span class="text-neutral-700 text-base font-bold font-['Montserrat']">/10</span>
+                    </div>
+                    <div id="btnRisk" class="h-4 px-2 py-1 bg-yellow-400 rounded-[32px] flex justify-center items-center">
+                        <div id="textRisk" class="text-white text-xs font-normal font-['Roboto']">Riesgo medio</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Datos generales -->
+            <div class="w-full sm:w-1/2 lg:w-1/3 border-r border-slate-200 y-4">
+                <div class="text-center text-neutral-700 text-base font-bold font-['Montserrat'] p-4">Datos generales</div>
+                <div class="w-72 h-[88px] flex-col justify-center items-center gap-3 inline-flex">
+                    <div class="self-stretch justify-center items-center gap-3 inline-flex">
+                        <div class="w-6 h-6 relative"></div>
+                        <div class="grow shrink basis-0 pt-4">
+                            <span id="general-info" class="text-neutral-700 text-base font-normal font-['Roboto']"></span>
+                        </div>
+                    </div>
+                    <div class="self-stretch justify-center items-center gap-3 inline-flex">
+                        <div class="w-6 h-6 relative"></div>
+                        <div class="grow shrink basis-0">
+                            <span id="isp-provider" class="text-neutral-700 text-base font-normal font-['Roboto']"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Puertos abiertos -->
+            <div class="w-full sm:w-full lg:w-1/3 p-4">
+                <div class="text-center text-neutral-700 text-base font-bold font-['Montserrat'] pb-4">Puertos abiertos</div>
+                <div class="w-full flex flex-wrap">
+                    <div class="w-1/2 p-2">
+                        <div class="w-28 h-28 relative justify-center">
+                            <div id="open-ports-count" class="w-[78px] text-center text-neutral-700 text-2xl font-bold font-['Montserrat']"></div>
+                            <div class="w-[78px] text-center text-neutral-700 text-xs font-normal font-['Roboto']">Puertos abiertos</div>
+                        </div>
+                    </div>
+                    <div class="w-1/2 p-2">
+                        <div class="w-full flex flex-wrap items-center mb-2 justify-between">
+                            <div class="w-[7px] h-[7px] bg-red-600 rounded-full mr-2"></div>
+                            <div class="text-neutral-700 text-xs font-normal font-['Roboto']">Severidad alta</div>
+                            <div id="severity-high" class="ml-5 text-right text-neutral-700 text-xs font-bold font-['Roboto']"></div>
+                        </div>
+                        <div class="w-full flex flex-wrap items-center mb-2 justify-between">
+                            <div class="w-[7px] h-[7px] bg-yellow-400 rounded-full mr-2"></div>
+                            <div class="text-neutral-700 text-xs font-normal font-['Roboto']">Severidad media</div>
+                            <div id="severity-medium" class="ml-5 text-right text-neutral-700 text-xs font-bold font-['Roboto']"></div>
+                        </div>
+                        <div class="w-full flex flex-wrap items-center mb-2 justify-between">
+                            <div class="w-[7px] h-[7px] bg-green-600 rounded-full mr-2"></div>
+                            <div class="text-neutral-700 text-xs font-normal font-['Roboto']">Severidad baja</div>
+                            <div id="severity-low" class="ml-5 text-right text-neutral-700 text-xs font-bold font-['Roboto']"></div>
+                        </div>
+                        <div class="w-full flex flex-wrap items-center mb-2 justify-between">
+                            <div class="w-[7px] h-[7px] bg-blue-600 rounded-full mr-2"></div>
+                            <div class="text-neutral-700 text-xs font-normal font-['Roboto']">Informativo</div>
+                            <div id="severity-informative" class="ml-5 text-right text-neutral-700 text-xs font-bold font-['Roboto']"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-neutral-700 text-2xl font-bold font-['Montserrat'] my-4">Resumen del estado de tu conexión</div>
+    <!-- Resumen del estado de tu conexión -->
+    <div class="w-full bg-white rounded-lg mt-2 shadow-md p-4">
+        <div class="w-full">
+            <span id="connection-summary" class="text-neutral-700 text-base font-normal font-['Roboto']"></span>
+        </div>
+    </div>
+    <div id="details-container"></div>
+</section>
+
+<script>
+ document.addEventListener('DOMContentLoaded', async () => {
+    const defaultResponseData = {
+        "generalInfo": "<p>Tu IP es 192.168.1.1, localizada en <strong>Madrid, Comunidad de Madrid, España</strong>.</p>",
+        "ipAddress": "192.168.1.1",
+        "ispProvider": "<p>Tu proveedor de servicios de internet es Movistar</p>",
+        "openPorts": [
+            {
+                "portNameAndType": "Puerto 80 (TCP)",
+                "applicationInfo": "<p>Servidor web Apache/2.4.41 (Ubuntu). Protocolo HTTP/1.1. Tipo de socket: TCP. Tecnología: Apache 2.4.41</p>",
+                "severityTypePort": "high",
+                "SeverityLabel": "Severidad alta"
+            },
+            {
+                "portNameAndType": "Puerto 443 (TCP)",
+                "applicationInfo": "<p>Servidor web Nginx/1.18.0 (Ubuntu). Protocolo HTTPS/1.1. Tipo de socket: TCP. Tecnología: Nginx 1.18.0</p>",
+                "severityTypePort": "medium",
+                "SeverityLabel": "Severidad media"
+            },
+            {
+                "portNameAndType": "Puerto 21 (TCP)",
+                "applicationInfo": "<p>Servidor FTP vsftpd 3.0.3. Protocolo FTP. Tipo de socket: TCP. Tecnología: vsftpd 3.0.3</p>",
+                "severityTypePort": "informative",
+                "SeverityLabel": "Informativo"
+            }
+        ],
+        "vulnerabilities": [
+            {
+                "cveId": "CVE-2023-1234",
+                "cveDescription": "<p>Descripción detallada del CVE: Esta vulnerabilidad permite a un atacante ejecutar código arbitrario en el servidor mediante un desbordamiento de buffer.</p>",
+                "cveRecommendations": "<ul><li>Actualizar el servidor Apache a la última versión disponible.</li><li>Implementar un firewall de aplicaciones web (WAF).</li><li>Realizar auditorías de seguridad regulares.</li></ul>",
+                "cveRiskLevel": "Alto",
+                "associatedPorts": [80, 443]
+            },
+            {
+                "cveId": "CVE-2023-5678",
+                "cveDescription": "<p>Descripción detallada del CVE: Vulnerabilidad de inyección SQL en el módulo de administración de Nginx.</p>",
+                "cveRecommendations": "<ul><li>Actualizar Nginx a la versión 1.18.1 o superior.</li><li>Configurar correctamente las reglas de firewall.</li><li>Deshabilitar el acceso a la administración desde internet.</li></ul>",
+                "cveRiskLevel": "Medio",
+                "associatedPorts": [443]
+            },
+            {
+                "cveId": "CVE-2023-9101",
+                "cveDescription": "<p>Descripción detallada del CVE: Exposición de información sensible a través del puerto FTP.</p>",
+                "cveRecommendations": "<ul><li>Configurar el servidor FTP para usar conexiones seguras (FTPS).</li><li>Limitar el acceso a usuarios autorizados.</li><li>Actualizar el servidor FTP a la última versión disponible.</li></ul>",
+                "cveRiskLevel": "Alto",
+                "associatedPorts": [443]
+            },
+            {
+                "cveId": "CVE-2023-2345",
+                "cveDescription": "<p>Descripción detallada del CVE: Vulnerabilidad de desbordamiento de buffer en Nginx que puede llevar a la ejecución de código remoto.</p>",
+                "cveRecommendations": "<ul><li>Actualizar Nginx a la versión más reciente.</li><li>Implementar medidas de seguridad adicionales, como un WAF.</li><li>Monitorizar los logs del servidor en busca de actividades sospechosas.</li></ul>",
+                "cveRiskLevel": "Alto",
+                "associatedPorts": [443]
+            },
+            {
+                "cveId": "CVE-2023-3456",
+                "cveDescription": "<p>Descripción detallada del CVE: Vulnerabilidad en el manejo de sesiones en Apache que permite secuestro de sesión.</p>",
+                "cveRecommendations": "<ul><li>Actualizar Apache a la última versión.</li><li>Configurar las opciones de seguridad de las sesiones.</li><li>Utilizar HTTPS para todas las conexiones.</li></ul>",
+                "cveRiskLevel": "Medio",
+                "associatedPorts": [80]
+            },
+            {
+                "cveId": "CVE-2023-7890",
+                "cveDescription": "<p>Descripción detallada del CVE: Vulnerabilidad de cross-site scripting (XSS) en Nginx.</p>",
+                "cveRecommendations": "<ul><li>Actualizar Nginx a la versión más reciente.</li><li>Implementar políticas de seguridad de contenido (CSP).</li><li>Validar y sanear toda la entrada de usuario.</li></ul>",
+                "cveRiskLevel": "Medio",
+                "associatedPorts": [443]
+            },
+            {
+                "cveId": "CVE-2023-8901",
+                "cveDescription": "<p>Descripción detallada del CVE: Vulnerabilidad en la configuración predeterminada del servidor FTP que permite acceso no autorizado.</p>",
+                "cveRecommendations": "<ul><li>Revisar y asegurar la configuración del servidor FTP.</li><li>Utilizar autenticación fuerte.</li><li>Limitar el acceso a IPs específicas.</li></ul>",
+                "cveRiskLevel": "Alto",
+                "associatedPorts": [443]
+            }
+        ],
+        "connectionSummary": "<p>La situación de seguridad de tu conexión presenta varias vulnerabilidades críticas y medias que requieren atención inmediata. Es fundamental actualizar los servidores y aplicar las recomendaciones de seguridad para minimizar riesgos.</p>",
+        "globalRiskScore": 8,
+        "globalRiskLabel": "Riesgo alto"
+    };
+
+    let responseData = defaultResponseData;
+
+    try {
+        const consultaId = new URLSearchParams(window.location.search).get('consulta_id');
+        if (consultaId) {
+            const response = await fetch(`https://e863b.twidget.io/ipdata/${consultaId}`);
+            if (response.ok) {
+                const data = await response.json();
+                responseData = data;
+            }
+        }
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+
+    // Función para agrupar vulnerabilidades por puerto
+    const portsWithVulns = responseData.openPorts.map(port => {
+        const portNumber = parseInt(port.portNameAndType.split(' ')[1]);
+        const portVulns = responseData.vulnerabilities.filter(vuln => vuln.associatedPorts.includes(portNumber));
+        return { ...port, vulnerabilities: portVulns };
+    });
+
+    // Contar severidades
+    const severityCounts = {
+        high: 0,
+        medium: 0,
+        informative: 0,
+        low: 0
+    };
+
+    portsWithVulns.forEach(port => {
+        severityCounts[port.severityTypePort]++;
+    });
+
+    // Actualizar información general
+    document.getElementById('ip-address').innerText = responseData.ipAddress;
+    document.getElementById('global-risk-score').innerText = responseData.globalRiskScore;
+    document.getElementById('general-info').innerHTML = responseData.generalInfo;
+    document.getElementById('isp-provider').innerHTML = responseData.ispProvider;
+    document.getElementById('open-ports-count').innerText = responseData.openPorts.length;
+    document.getElementById('severity-high').innerText = severityCounts.high;
+    document.getElementById('severity-medium').innerText = severityCounts.medium;
+    document.getElementById('severity-low').innerText = severityCounts.low;
+    document.getElementById('severity-informative').innerText = severityCounts.informative;
+    document.getElementById('connection-summary').innerHTML = responseData.connectionSummary;
+
+    const riskScore = responseData.globalRiskScore;
+const riskLabel = responseData.globalRiskLabel; // Asignar el label del json
+const riskScoreElement = document.getElementById('global-risk-score');
+const riskContainerElement = document.getElementById('btnRisk');
+const riskTextElement = document.getElementById('textRisk');
+
+// Función para limpiar las clases de color de fondo
+const clearBackgroundClasses = () => {
+    riskContainerElement.classList.remove('bg-blue-400', 'bg-yellow-400', 'bg-red-600');
+};
+
+// Asignar el label del riesgo
+riskTextElement.textContent = riskLabel;
+
+if (riskScore >= 0 && riskScore <= 3) {
+    // Riesgo bajo (azul)
+    riskScoreElement.style.color = '#3182CE';
+    clearBackgroundClasses(); // Limpiar clases de color de fondo previas
+    riskContainerElement.classList.add('bg-blue-400'); // Aplicar color de fondo azul
+} else if (riskScore >= 4 && riskScore <= 7) {
+    // Riesgo medio (amarillo)
+    riskScoreElement.style.color = '#D69E2E';
+    clearBackgroundClasses(); // Limpiar clases de color de fondo previas
+    riskContainerElement.classList.add('bg-yellow-400'); // Aplicar color de fondo amarillo
+} else if (riskScore >= 8 && riskScore <= 10) {
+    // Riesgo alto (rojo)
+    riskScoreElement.style.color = '#E53E3E';
+    clearBackgroundClasses(); // Limpiar clases de color de fondo previas
+    riskContainerElement.classList.add('bg-red-600'); // Aplicar color de fondo rojo
+} else {
+    // Manejar cualquier otro caso que pueda surgir
+    console.error('Puntaje de riesgo fuera de rango esperado.');
+}
+
+    // Agregar detalles de los puertos
+    const detailsContainer = document.getElementById('details-container');
+    if (portsWithVulns.length > 0) {
+        const detailsTitle = document.createElement('div');
+        detailsTitle.className = "text-neutral-700 text-2xl font-bold font-['Montserrat'] my-4";
+        detailsTitle.innerText = "Detalles de los puertos abiertos";
+        detailsContainer.appendChild(detailsTitle);
+
+        portsWithVulns.forEach(port => {
+            const details = document.createElement('details');
+            details.className = 'my-4 shadow-md';
+
+            const summary = document.createElement('summary');
+            summary.className = 'accordion-summary';
+            summary.style.width = "1008px";
+            summary.style.height = "72px";
+            summary.style.padding = "6px";
+            summary.style.backgroundColor = "white";
+            summary.style.borderRadius = "8px";
+            summary.style.display = "flex";
+            summary.style.justifyContent = "space-between";
+            summary.style.alignItems = "center";
+            summary.style.cursor = "pointer";
+
+            const title = document.createElement('div');
+            title.className = 'title';
+            title.innerText = port.portNameAndType;
+            title.style.color = "#4A5568";
+            title.style.fontSize = "1.25rem";
+            title.style.fontWeight = "bold";
+            title.style.fontFamily = "'Montserrat'";
+
+            const flexWrap = document.createElement('div');
+            flexWrap.className = 'flex flex-wrap';
+
+            const severity = document.createElement('div');
+            severity.className = 'severity';
+            severity.style.backgroundColor = port.severityTypePort === 'high' ? '#E53E3E' : port.severityTypePort === 'medium' ? '#D69E2E' : port.severityTypePort === 'informative' ? '#3182CE' : '#38A169';
+            severity.innerText = port.SeverityLabel;
+            severity.style.width = "auto";
+            severity.style.padding = "4px 8px";
+            severity.style.borderRadius = "32px";
+            severity.style.display = "flex";
+            severity.style.alignItems = "center";
+            severity.style.justifyContent = "center";
+            severity.style.color = "white";
+            severity.style.fontSize = "0.75rem";
+            severity.style.fontFamily = "'Roboto'";
+
+            const icon = document.createElement('div');
+            icon.className = 'icon';
+            icon.style.width = "24px";
+            icon.style.height = "24px";
+            icon.style.display = "flex";
+            icon.style.alignItems = "center";
+            icon.style.justifyContent = "center";
+            icon.style.fontSize = "1.25rem";
+            icon.style.color = "#4A5568";
+
+            flexWrap.appendChild(severity);
+            flexWrap.appendChild(icon);
+            summary.appendChild(title);
+            summary.appendChild(flexWrap);
+
+            const accordionDetails = document.createElement('div');
+            accordionDetails.className = 'accordion-details';
+            accordionDetails.style.width = "1008px";
+            accordionDetails.style.padding = "6px";
+            accordionDetails.style.backgroundColor = "white";
+            accordionDetails.style.borderRadius = "8px";
+            accordionDetails.style.display = "flex";
+            accordionDetails.style.flexDirection = "column";
+            accordionDetails.style.gap = "6px";
+
+            const content = document.createElement('div');
+            content.className = 'content';
+            content.style.color = "#4A5568";
+            content.style.fontSize = "1rem";
+            content.style.fontFamily = "'Roboto'";
+            content.innerHTML = port.applicationInfo;
+
+            port.vulnerabilities.forEach(vuln => {
+                const vulnContainer = document.createElement('div');
+
+                const vulnId = document.createElement('span');
+                vulnId.className = 'bold';
+                vulnId.innerText = vuln.cveId;
+                vulnId.style.fontWeight = "bold";
+                vulnId.style.fontFamily = "'Inter'";
+
+                const vulnDescription = document.createElement('span');
+                vulnDescription.innerHTML = vuln.cveDescription;
+
+                const vulnRecommendations = document.createElement('span');
+                vulnRecommendations.className = 'bold';
+                vulnRecommendations.innerHTML = 'Recomendaciones:';
+                vulnRecommendations.style.fontWeight = "bold";
+                vulnRecommendations.style.fontFamily = "'Inter'";
+
+                const vulnRecommendationsList = document.createElement('span');
+                vulnRecommendationsList.innerHTML = vuln.cveRecommendations;
+
+                vulnContainer.appendChild(vulnId);
+                vulnContainer.appendChild(vulnDescription);
+                vulnContainer.appendChild(vulnRecommendations);
+                vulnContainer.appendChild(vulnRecommendationsList);
+                content.appendChild(vulnContainer);
+            });
+
+            accordionDetails.appendChild(content);
+            details.appendChild(summary);
+            details.appendChild(accordionDetails);
+            detailsContainer.appendChild(details);
+
+            // Añadir los estilos para el ícono
+            const style = document.createElement('style');
+            style.innerHTML = `
+                details[open] .icon::before {
+                    content: "⮝";
+                }
+                details .icon::before {
+                    content: "⮞";
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    }
+});
+</script>

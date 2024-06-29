@@ -1,0 +1,210 @@
+---
+import FraDivBase from "../components/FraDivBase.astro";
+
+const reportData = {
+  "generalInfo": "<p>Tu IP es 192.168.1.1, localizada en <strong>Madrid, Comunidad de Madrid, España</strong>.</p>",
+  "ispInfo": "<p>Tu proveedor de servicios de internet es Movistar</p>",
+  "ipAddress": "192.168.1.1",
+  "infoPorts": {
+    "lowSeverityPorts": 2,
+    "mediumSeverityPorts": 1,
+    "highSeverityPorts": 1,
+    "totalOpenPorts": 4,
+    "openPorts": [
+      {
+        "portNameAndType": "Puerto 80 (TCP)",
+        "applicationInfo": "<p>El puerto 80 es utilizado por el protocolo HTTP, generalmente para servicios web. Versión: 1.1, Socket: TCP, Tecnología: Apache 2.4.41</p>",
+        "portNumber": 80
+      },
+      {
+        "portNameAndType": "Puerto 443 (TCP)",
+        "applicationInfo": "<p>El puerto 443 es utilizado por el protocolo HTTPS para conexiones seguras. Versión: 1.2, Socket: TCP, Tecnología: Nginx 1.18.0</p>",
+        "portNumber": 443
+      },
+      {
+        "portNameAndType": "Puerto 22 (TCP)",
+        "applicationInfo": "<p>El puerto 22 es utilizado por el protocolo SSH para conexiones seguras de administración remota. Versión: OpenSSH 7.9, Socket: TCP</p>",
+        "portNumber": 22
+      },
+      {
+        "portNameAndType": "Puerto 21 (TCP)",
+        "applicationInfo": "<p>El puerto 21 es utilizado por el protocolo FTP para transferencia de archivos. Versión: vsftpd 3.0.3, Socket: TCP</p>",
+        "portNumber": 21
+      }
+    ]
+  },
+  "vulnerabilities": [
+    {
+      "cveId": "CVE-2023-1234",
+      "cveDescription": "<p>Vulnerabilidad en Apache que permite ejecución remota de código.</p>",
+      "cveRecommendations": "<ul><li>Actualizar a la última versión de Apache.</li><li>Aplicar los parches de seguridad proporcionados por el proveedor.</li><li>Monitorizar el tráfico del puerto 80 para detectar actividades sospechosas.</li></ul>",
+      "cveRiskLevel": "Alta",
+      "associatedPorts": [80,22]
+    },
+    {
+      "cveId": "CVE-2023-5678",
+      "cveDescription": "<p>Vulnerabilidad en Nginx que permite ataques de denegación de servicio.</p>",
+      "cveRecommendations": "<ul><li>Actualizar a la última versión de Nginx.</li><li>Configurar límites de conexión para evitar abusos.</li><li>Implementar un firewall de aplicaciones web.</li></ul>",
+      "cveRiskLevel": "Media",
+      "associatedPorts": [443]
+    },
+    {
+      "cveId": "CVE-2023-9101",
+      "cveDescription": "<p>Vulnerabilidad en OpenSSH que permite escalada de privilegios.</p>",
+      "cveRecommendations": "<ul><li>Actualizar OpenSSH a la última versión.</li><li>Revisar y ajustar las configuraciones de acceso SSH.</li><li>Implementar autenticación de dos factores.</li></ul>",
+      "cveRiskLevel": "Alta",
+      "associatedPorts": [22]
+    },
+    {
+      "cveId": "CVE-2023-3345",
+      "cveDescription": "<p>Vulnerabilidad en vsftpd que permite fuga de información.</p>",
+      "cveRecommendations": "<ul><li>Actualizar vsftpd a la última versión.</li><li>Revisar permisos y configuraciones de los archivos FTP.</li><li>Usar FTP seguro (FTPS) en lugar de FTP simple.</li></ul>",
+      "cveRiskLevel": "Media",
+      "associatedPorts": [21]
+    }
+  ],
+  "connectionSummary": "<p>Tu conexión presenta varias vulnerabilidades que deben ser atendidas urgentemente para mejorar tu seguridad. Te recomendamos seguir las indicaciones detalladas para cada vulnerabilidad.</p>",
+  "globalRiskScore": 8
+};
+
+// Agrupar vulnerabilidades por puerto
+const portsWithVulns = reportData.infoPorts.openPorts.map(port => {
+  const portVulns = reportData.vulnerabilities.filter(vuln => vuln.associatedPorts.includes(port.portNumber));
+  return { ...port, vulnerabilities: portVulns };
+});
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Document</title>
+    <style>
+      ul {
+        list-style: disc!important; /* Equivalente a list-disc */
+        padding-left: 1.25rem!important; /* Equivalente a pl-5 */
+        color: #4a5568; /* Equivalente a text-neutral-700 */
+      }
+      
+      li {
+        color: #4a5568; /* Equivalente a text-neutral-700 */
+      }
+    </style>
+</head>
+<body class="bg-slate-100 py-5 w-full flex items-center justify-center">
+  <div class="justify-center">
+  <section class="w-full max-w-[1008px] p-6 mt-10 flex flex-col py-1">
+    <div class="text-neutral-700 text-2xl font-bold font-['Montserrat'] text-left">
+      IP Casa - {reportData.ipAddress}
+    </div>
+    <FraDivBase>
+  
+      <div class="w-full sm:w-1/3 flex flex-col items-center px-5 border-gray-300 border-r">
+        <div class="w-full text-center text-neutral-700 text-base font-bold font-['Montserrat']">
+          Puntuación obtenida
+        </div>
+        <div class="w-full flex flex-col justify-start items-center relative">
+          <div class="w-full flex justify-center items-center h-20">
+            <div class="flex flex-wrap justify-center items-center h-full">
+              <div class="text-neutral-700 text-4xl font-bold font-['Montserrat']" set:html={reportData.globalRiskScore} />
+              <div class="text-neutral-700 text-base font-bold font-['Montserrat']">/10</div>
+            </div>
+          </div>
+          <div class="h-4 px-2 py-1 bg-yellow-400 rounded-[32px] flex justify-start items-center gap-2 mt-2">
+            <div class="text-white text-xs font-normal font-['Roboto']">Riesgo medio</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-full sm:w-1/3 flex flex-col items-center px-5 border-gray-300 border-r">
+        <div class="w-full text-center text-neutral-700 text-base font-bold font-['Montserrat']">
+          Datos generales
+        </div>
+        <div class="w-full h-auto flex flex-col justify-start items-center gap-2 relative pt-2">
+          <div class="w-full block relative" set:html={reportData.generalInfo}></div>
+          <div class="w-full block" set:html={reportData.ispInfo}></div>
+        </div>
+      </div>
+
+      <div class="w-full sm:w-1/3 flex flex-col items-center px-1">
+        <div class="w-full text-center text-neutral-700 text-base font-bold font-['Montserrat']">
+          Puertos abiertos
+        </div>
+        <div class="w-full flex flex-wrap justify-center items-center">
+          <div class="w- full sm:w-1/2 p-4">
+            <div class="text-center text-neutral-700 text-3xl font-bold font-['Montserrat']" set:html={reportData.infoPorts.totalOpenPorts}></div>
+            <div class="text-center text-neutral-700 text-md font-normal font-['Roboto']">Puertos abiertos</div>
+          </div>
+          <div class="w-full sm:w-1/2 py-4">
+
+            <div class="w-full flex flex-wrap items-center mb-2 justify-between">
+              <div class="w-[7px] h-[7px] bg-red-600 rounded-full mr-2"></div>
+              <div class="text-neutral-700 text-xs font-normal font-['Roboto']">Severidad alta</div>
+              <div class="ml-5 text-right text-neutral-700 text-xs font-bold font-['Roboto']" set:html={reportData.infoPorts.highSeverityPorts}></div>
+            </div>
+            <div class=" w-full flex flex-wrap items-center mb-2 justify-between">
+              <div class="w-[7px] h-[7px] bg-yellow-400 rounded-full mr-2"></div>
+              <div class="text-neutral-700 text-xs font-normal font-['Roboto']">Severidad media</div>
+              <div class="ml-5 text-right text-neutral-700 text-xs font-bold font-['Roboto']" set:html={reportData.infoPorts.mediumSeverityPorts}></div>
+            </div>
+            <div class=" w-full flex flex-wrap items-center mb-2 justify-between">
+              <div class="w-[7px] h-[7px] bg-green-600 rounded-full mr-2"></div>
+              <div class="text-neutral-700 text-xs font-normal font-['Roboto']">Severidad baja</div>
+              <div class="ml-5 text-right text-neutral-700 text-xs font-bold font-['Roboto']" set:html={reportData.infoPorts.lowSeverityPorts}></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="w-full max-w-[1008px] p-6 flex flex-col py-1">
+    
+  <div class="text-neutral-700 text-2xl font-bold font-['Montserrat']">Resumen del estado de tu conexión</div>
+  <FraDivBase>
+    <div class="w-full"><span style="text-neutral-700 text-base font-normal font-['Roboto']" set:html={reportData.connectionSummary}/></div>
+  </FraDivBase>
+  <div class="text-neutral-700 text-2xl font-bold font-['Montserrat']">Detalle de puertos abiertos</div>
+    </section>
+  
+    <section class="w-full max-w-[1008px] p-6 flex flex-col py-1">
+    <div class="mb-2">
+      {portsWithVulns.map((port, index) => (
+        <details key={index} class="mb-4 bg-white p-4 rounded-lg shadow-md">
+          <summary class="flex justify-between items-center cursor-pointer list-none">
+            <div class="flex items-center gap-2">
+              <div class="text-neutral-700 text-xl font-bold">{port.portNameAndType}</div>
+            </div>
+            <div class="flex items-center gap-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-neutral-700 transform transition-transform" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l6 6a1 1 0 01-1.414 1.414L10 5.414 4.707 10.707a1 1 0 01-1.414-1.414l6-6A1 1 0 0110 3z" clip-rule="evenodd" />
+              </svg>
+            </div>
+          </summary>
+          <div class="mt-6">
+            <div class="space-y-4">
+              <div class="text-neutral-700" set:html={port.applicationInfo}></div>
+              {port.vulnerabilities.length > 0 && (
+                <div class="mt-4">
+                  <h3 class="text-lg font-bold">Vulnerabilidades</h3>
+                  {port.vulnerabilities.map((vuln, vulnIndex) => (
+                    <div key={vulnIndex} class="mt-2">
+                      <p class="text-neutral-700 text-base font-bold">{vuln.cveId}</p>
+                      <div class="text-neutral-700" set:html={vuln.cveDescription} />
+                      <div class="text-neutral-900 py-1"><strong>Recomendaciones</strong></div>
+                      <div class="text-neutral-700 !list-disc" set:html={vuln.cveRecommendations} />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+  </section>
+</div>
+</body>
+
+</html>

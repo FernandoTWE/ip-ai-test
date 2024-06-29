@@ -1,0 +1,28 @@
+/* El archivo base.css inyectado por defecto de la integración */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* src/styles/custom.css */
+.custom-ul {
+    list-style-type: disc;
+    padding-left: 1rem;
+    margin-bottom: 1rem;
+    background-color: #f3f4f6; /* bg-gray-100 */
+    padding: 1rem;
+    border-radius: 0.5rem; /* rounded-lg */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-md */
+}
+
+.custom-li {
+    font-size: 1.125rem; /* text-lg */
+    color: #1f2937; /* text-gray-800 */
+    font-weight: 500; /* font-medium */
+    margin-bottom: 0.5rem;
+}
+
+.custom-p {
+    font-size: 1rem; /* text-base */
+    line-height: 1.75rem; /* leading-relaxed */
+    margin-bottom: 1rem; /* mb-4 */
+}
