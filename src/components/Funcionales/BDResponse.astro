@@ -229,20 +229,20 @@ const clearBackgroundClasses = () => {
 riskTextElement.textContent = riskLabel;
 
 if (riskScore >= 0 && riskScore <= 3) {
-    // Riesgo bajo (azul)
-    riskScoreElement.style.color = '#3182CE';
+    // Riesgo alto (rojo)
+    riskScoreElement.style.color = '#E53E3E';
     clearBackgroundClasses(); // Limpiar clases de color de fondo previas
-    riskContainerElement.classList.add('bg-blue-400'); // Aplicar color de fondo azul
-} else if (riskScore >= 4 && riskScore <= 7) {
+    riskContainerElement.classList.add('bg-red-600'); // Aplicar color de fondo azul
+} else if (riskScore >= 4 && riskScore <= 6) {
     // Riesgo medio (amarillo)
     riskScoreElement.style.color = '#D69E2E';
     clearBackgroundClasses(); // Limpiar clases de color de fondo previas
     riskContainerElement.classList.add('bg-yellow-400'); // Aplicar color de fondo amarillo
-} else if (riskScore >= 8 && riskScore <= 10) {
-    // Riesgo alto (rojo)
-    riskScoreElement.style.color = '#E53E3E';
+} else if (riskScore >= 7 && riskScore <= 10) {
+    // Riesgo bajo (azul)
+    riskScoreElement.style.color = '#2563eb';
     clearBackgroundClasses(); // Limpiar clases de color de fondo previas
-    riskContainerElement.classList.add('bg-red-600'); // Aplicar color de fondo rojo
+    riskContainerElement.classList.add('bg-blue-400'); // Aplicar color de fondo rojo
 } else {
     // Manejar cualquier otro caso que pueda surgir
     console.error('Puntaje de riesgo fuera de rango esperado.');
